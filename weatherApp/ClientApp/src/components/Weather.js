@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect, useRef } from "react";
 import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function Weather(){
     const [filters, setFilters] = useState({month: "", year:"", page: 1})
@@ -84,7 +85,8 @@ export default function Weather(){
 
     return (
         <>
-        {(!errorMessage) ? <>
+        <span>totalFound: {totalFound}</span>
+        {(totalFound) ? <>
             <div>
         <select value={filters.month} onChange={monthChangeHandler}>
             {months.map(m => <option key={m} value={m}>{m}</option>)}
@@ -92,8 +94,7 @@ export default function Weather(){
         <select value={filters.year} onChange={yearChangeHandler}>
             {years.map(m => <option key={m} value={m}>{m}</option>)}
         </select>
-        </div>
-        <span>totalFound: {totalFound}</span>
+        </div>        
         <div className='weather-page-container'>
             {pageCount.map(n => <span key={n} className='weather-page-link' onClick={e => setPageHandler(n)}>{n}</span>)}
         </div>
@@ -133,8 +134,12 @@ export default function Weather(){
         </tbody>
       </table>
         </div>
-            </> : <span>{errorMessage}</span>
+            </> : 
+            <>
+            <div>Try load new files: <Link to="/load-data">Load data</Link></div>           
+            </>
         }
+        {errorMessage ? <span>{errorMessage}</span>: <></>}
         </>
                       
     )
